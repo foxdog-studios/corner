@@ -8,3 +8,6 @@ class Director:
     def __repr__(self):
         return 'Director({!r})'.format(self.name)
 
+    def __str__(self):
+        return self.name
+

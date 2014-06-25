@@ -14,8 +14,11 @@ def main(argv=None):
     dsb = DirectorsBuilder(rows)
     esb = EventsBuilder(dsb, rows)
 
+    ds = set()
     for eb in esb.event_builders:
-        print(eb.event.directors)
+        ds.update(eb.event.directors)
+    for d in sorted(ds, key=lambda d:d.name):
+        print(d)
 
 
 @defaults(argv=lambda: sys.argv)
