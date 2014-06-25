@@ -2,13 +2,43 @@ from contextlib import contextmanager
 import csv
 
 
-def output(events, directors, output_dir):
+def output(directors, languages, events, output_dir):
     if not output_dir.is_dir():
         output_dir.mkdir(parents=True)
 
     directors_path = output_dir / 'directors.csv'
+    languages_path = output_dir / 'languages.csv'
     event_directors_path = output_dir / 'event_directors.csv'
     events_path = output_dir / 'events.csv'
+
+
+
+    # Directors
+    with csv_writer(directors_path) as directors_csv:
+        directors_csv.writerow([
+            'ID',
+            'Name',
+        ])
+
+        for director in sorted(directors, key=lambda d: d.id_):
+            directors_csv.writerow([
+                director.id_,
+                director.name,
+            ])
+
+    # Languages
+    with csv_writer(languages_path) as languages_csv:
+        languages_csv.writerow([
+            'ID',
+            'Name',
+        ])
+
+        for language in sorted(languages, key=lambda l: l.id_):
+            languages_csv.writerow([
+                language.id_,
+                language.name,
+            ])
+
 
     # Events
     with csv_writer(events_path) as events_csv:
@@ -35,19 +65,6 @@ def output(events, directors, output_dir):
                 csv_bool(event.has_musical_accompaniment),
                 csv_bool(event.is_live),
                 csv_bool(event.is_preview),
-            ])
-
-    # Directors
-    with csv_writer(directors_path) as directors_csv:
-        directors_csv.writerow([
-            'ID',
-            'Name',
-        ])
-
-        for director in sorted(directors, key=lambda d: d.id_):
-            directors_csv.writerow([
-                director.id_,
-                director.name,
             ])
 
     # Event directors

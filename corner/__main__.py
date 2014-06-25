@@ -5,6 +5,7 @@ import sys
 
 from corner.directors_builder import DirectorsBuilder
 from corner.events_builder import EventsBuilder
+from corner.languages_builder import LanguagesBuilder
 from corner.output import output
 from corner.utils import defaults
 
@@ -13,10 +14,12 @@ def main(argv=None):
     args = parse_argv(argv=argv)
     rows = load_csv(args.input_path)
     directors_builder = DirectorsBuilder(rows)
+    languages_builder = LanguagesBuilder(rows)
     events_builder = EventsBuilder(directors_builder, rows)
     output(
-        events_builder.events,
         directors_builder.directors,
+        languages_builder.languages,
+        events_builder.events,
         args.output_dir,
     )
 
