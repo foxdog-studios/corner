@@ -1,35 +1,32 @@
 from argparse import ArgumentParser
-from pprint import pprint
+from pathlib import Path
 import csv
 import sys
 
 from corner.directors_builder import DirectorsBuilder
 from corner.events_builder import EventsBuilder
+from corner.output import output
 from corner.utils import defaults
 
 
 def main(argv=None):
     args = parse_argv(argv=argv)
-    rows = load_csv(args.csv_path)
-    dsb = DirectorsBuilder(rows)
-    esb = EventsBuilder(dsb, rows)
-
-    ds = set()
-    for eb in esb.event_builders:
-        ds.update(eb.event.directors)
-    for d in sorted(ds, key=lambda d:d.name):
-        print(d)
+    rows = load_csv(args.input_path)
+    directors_builder = DirectorsBuilder(rows)
+    events_builder = EventsBuilder(directors_builder, rows)
+    output(events_builder.events, args.output_dir)
 
 
 @defaults(argv=lambda: sys.argv)
 def parse_argv(argv=None):
     parser = ArgumentParser()
-    parser.add_argument('csv_path')
+    parser.add_argument('input_path', type=Path)
+    parser.add_argument('output_dir', type=Path)
     return parser.parse_args(args=argv[1:])
 
 
 def load_csv(csv_path):
-    with open(csv_path, newline='') as csv_file:
+    with csv_path.open(newline='') as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
         return [row for row in csv_reader]
