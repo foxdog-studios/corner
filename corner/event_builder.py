@@ -19,6 +19,7 @@ class EventBuilder:
         self.year_released = row[3]
         self.certificate = row[4]
         self.directors = row[5]
+        self.language = row[6]
 
         self._build()
 
@@ -31,6 +32,7 @@ class EventBuilder:
             certificate=self._build_certificate(),
             is_live=self._build_is_live(),
             is_preview=self._build_is_preview(),
+            is_silent=self._build_is_silent(),
             year_released=self._build_year_released(),
         )
 
@@ -60,6 +62,9 @@ class EventBuilder:
 
     def _build_is_preview(self):
         return 'Preview' in self.title
+
+    def _build_is_silent(self):
+        return self.language.startswith('Silent')
 
     def _build_year_released(self):
         with suppress(ValueError):

@@ -9,8 +9,9 @@ class Event:
             directors,
             alternative_title=None,
             certificate=None,
-            is_preview=False,
             is_live=False,
+            is_preview=False,
+            is_silent=False,
             year_released=None
         ):
         self.id_ = id_
@@ -18,7 +19,8 @@ class Event:
         self.directors = directors
         self.alternative_title = alternative_title
         self.certificate = certificate
-        self.is_preview = is_preview
         self.is_live = is_live
+        self.is_preview = is_preview
+        self.is_silent = is_silent
         self.year_released = year_released
 

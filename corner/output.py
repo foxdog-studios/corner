@@ -18,6 +18,7 @@ def output(events, directors, output_dir):
             'Alternative title',
             'Year released',
             'Certificate',
+            'Silent?',
             'Preview?',
             'Live?',
         ])
@@ -29,6 +30,7 @@ def output(events, directors, output_dir):
                 event.alternative_title,
                 event.year_released,
                 event.certificate,
+                csv_bool(event.is_silent),
                 csv_bool(event.is_preview),
                 csv_bool(event.is_live),
             ])
