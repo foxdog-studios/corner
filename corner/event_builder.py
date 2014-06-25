@@ -30,6 +30,7 @@ class EventBuilder:
             self._build_directors(),
             alternative_title=self._build_alternative_title(),
             certificate=self._build_certificate(),
+            has_musical_accompaniment=self._build_has_musical_accompaniment(),
             is_live=self._build_is_live(),
             is_preview=self._build_is_preview(),
             is_silent=self._build_is_silent(),
@@ -56,6 +57,10 @@ class EventBuilder:
     def _build_directors(self):
         return [director_builder.director for director_builder in
                 self._directors_builder.get_director_builders(self.directors)]
+
+    def _build_has_musical_accompaniment(self):
+        return self.language == 'Silent w/ musical accompaniment' or \
+                self.title == 'The Lodger plus Live Accompaniment'
 
     def _build_is_live(self):
         return self.certificate == 'live'

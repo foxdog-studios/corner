@@ -34,6 +34,7 @@ TITLE_CORRECTIONS = {
                                             'ävankmajer & The Brothers Quay': 'The Cabinet of Jan Svankmajer & The Brothers Quay',
                                            'Epizoda u éivotu Bera a éeljeza': 'Epizoda u životu berača željeza',
                                          'Los Años Desnudos: Clasificada ëS': 'Los años desnudos (Clasificada S)',
+                                        'The Lodger plus Live Accompaniment': 'The Lodger: A Story of the London Fog',
                                        'La teta asustada/ Preview Screening': 'La teta asustada',
                                      '24 cines por segundo: S·banas blancas': '24 cines por segundo: Sábanas blancas',
                                      'Special UK Preview: Premier/Divisions': 'Divisions',

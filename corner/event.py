@@ -9,6 +9,7 @@ class Event:
             directors,
             alternative_title=None,
             certificate=None,
+            has_musical_accompaniment=False,
             is_live=False,
             is_preview=False,
             is_silent=False,
@@ -19,6 +20,7 @@ class Event:
         self.directors = directors
         self.alternative_title = alternative_title
         self.certificate = certificate
+        self.has_musical_accompaniment = has_musical_accompaniment
         self.is_live = is_live
         self.is_preview = is_preview
         self.is_silent = is_silent

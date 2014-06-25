@@ -19,8 +19,9 @@ def output(events, directors, output_dir):
             'Year released',
             'Certificate',
             'Silent?',
-            'Preview?',
+            'Musical accompaniment?',
             'Live?',
+            'Preview?',
         ])
 
         for event in sorted(events, key=lambda e: e.id_):
@@ -31,8 +32,9 @@ def output(events, directors, output_dir):
                 event.year_released,
                 event.certificate,
                 csv_bool(event.is_silent),
-                csv_bool(event.is_preview),
+                csv_bool(event.has_musical_accompaniment),
                 csv_bool(event.is_live),
+                csv_bool(event.is_preview),
             ])
 
     # Directors
