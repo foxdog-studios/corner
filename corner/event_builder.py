@@ -16,7 +16,7 @@ class EventBuilder:
         self.id_ = row[0]
         self.title = row[1]
         self.alternative_title = row[2]
-        self.year = row[3]
+        self.year_released = row[3]
         self.certificate = row[4]
         self.directors = row[5]
 
@@ -31,7 +31,7 @@ class EventBuilder:
             certificate=self._build_certificate(),
             is_live=self._build_is_live(),
             is_preview=self._build_is_preview(),
-            year=self._build_year(),
+            year_released=self._build_year_released(),
         )
 
     def _build_id(self):
@@ -61,9 +61,9 @@ class EventBuilder:
     def _build_is_preview(self):
         return 'Preview' in self.title
 
-    def _build_year(self):
+    def _build_year_released(self):
         with suppress(ValueError):
-            return int(self.year)
+            return int(self.year_released)
 
     def _correct_title(self, title):
         title = title.strip()

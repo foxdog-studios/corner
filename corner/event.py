@@ -11,7 +11,7 @@ class Event:
             certificate=None,
             is_preview=False,
             is_live=False,
-            year=None
+            year_released=None
         ):
         self.id_ = id_
         self.title = title
@@ -20,5 +20,5 @@ class Event:
         self.certificate = certificate
         self.is_preview = is_preview
         self.is_live = is_live
-        self.year = year
+        self.year_released = year_released
 
