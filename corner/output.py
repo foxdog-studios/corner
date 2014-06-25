@@ -6,8 +6,9 @@ def output(events, directors, output_dir):
     if not output_dir.is_dir():
         output_dir.mkdir(parents=True)
 
-    events_path = output_dir / 'events.csv'
     directors_path = output_dir / 'directors.csv'
+    event_directors_path = output_dir / 'event_directors.csv'
+    events_path = output_dir / 'events.csv'
 
     # Events
     with csv_writer(events_path) as events_csv:
@@ -44,6 +45,20 @@ def output(events, directors, output_dir):
                 director.id_,
                 director.name,
             ])
+
+    # Event directors
+    with csv_writer(event_directors_path) as event_directors_csv:
+        event_directors_csv.writerow([
+            'Event ID',
+            'Director ID',
+        ])
+
+        for event in sorted(events, key=lambda e: e.id_):
+            for director in sorted(event.directors, key=lambda d: d.id_):
+                event_directors_csv.writerow([
+                    event.id_,
+                    director.id_,
+                ])
 
 
 def csv_bool(obj):

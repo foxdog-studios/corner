@@ -4,7 +4,7 @@ from corner.director import Director
 
 
 class DirectorBuilder:
-    _next_id = count()
+    _next_id = count(start=1)
 
     def __init__(self, name):
         self.name = name
