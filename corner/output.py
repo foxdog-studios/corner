@@ -17,6 +17,8 @@ def output(events, output_dir):
             'Title',
             'Alternative title',
             'Year released',
+            'Preview?',
+            'Live?',
         ])
 
         for event in sorted(events, key=lambda e: e.id_):
@@ -25,5 +27,14 @@ def output(events, output_dir):
                 event.title,
                 event.alternative_title,
                 event.year_released,
+                csvbool(event.is_preview),
+                csvbool(event.is_live),
             ])
+
+
+def csvbool(obj):
+    if bool(obj):
+        return 1
+    else:
+        return 0
 
