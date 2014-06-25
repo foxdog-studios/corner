@@ -14,7 +14,11 @@ def main(argv=None):
     rows = load_csv(args.input_path)
     directors_builder = DirectorsBuilder(rows)
     events_builder = EventsBuilder(directors_builder, rows)
-    output(events_builder.events, args.output_dir)
+    output(
+        events_builder.events,
+        directors_builder.directors,
+        args.output_dir,
+    )
 
 
 @defaults(argv=lambda: sys.argv)

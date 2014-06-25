@@ -1,17 +1,16 @@
+from contextlib import contextmanager
 import csv
 
 
-def output(events, output_dir):
+def output(events, directors, output_dir):
     if not output_dir.is_dir():
         output_dir.mkdir(parents=True)
 
     events_path = output_dir / 'events.csv'
+    directors_path = output_dir / 'directors.csv'
 
-    with events_path.open('w', newline='') as events_file:
-        events_csv = csv.writer(events_file)
-
-
-        # Headers
+    # Events
+    with csv_writer(events_path) as events_csv:
         events_csv.writerow([
             'ID',
             'Title',
@@ -29,14 +28,33 @@ def output(events, output_dir):
                 event.alternative_title,
                 event.year_released,
                 event.certificate,
-                csvbool(event.is_preview),
-                csvbool(event.is_live),
+                csv_bool(event.is_preview),
+                csv_bool(event.is_live),
+            ])
+
+    # Directors
+    with csv_writer(directors_path) as directors_csv:
+        directors_csv.writerow([
+            'ID',
+            'Name',
+        ])
+
+        for director in sorted(directors, key=lambda d: d.id_):
+            directors_csv.writerow([
+                director.id_,
+                director.name,
             ])
 
 
-def csvbool(obj):
+def csv_bool(obj):
     if bool(obj):
         return 1
     else:
         return 0
+
+
+@contextmanager
+def csv_writer(path):
+    with path.open('w', newline='') as file_:
+        yield csv.writer(file_)
 

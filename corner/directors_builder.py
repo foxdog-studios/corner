@@ -180,7 +180,7 @@ class DirectorsBuilder:
         for row in rows:
             names.update(self.split(row[5]))
 
-        for name in names:
+        for name in sorted(names):
             director_builder = DirectorBuilder(name)
             self._by_name[name] = director_builder
             self.directors.append(director_builder.director)
