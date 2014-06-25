@@ -48,6 +48,22 @@ function install_python_packages()
     pip install --requirement $repo/requirements.txt
 }
 
+function init_local()
+{
+    local config=$repo/config
+    local development=$config/development
+
+    if [[ ! -d  $development ]]; then
+        cp --recursive $config/template $development
+    fi
+
+    local default=$config/default
+
+    if [[ ! -h $default ]]; then
+        $repo/scripts/config.zsh development
+    fi
+}
+
 
 # ==============================================================================
 # = Command line interface                                                     =
@@ -57,6 +73,7 @@ tasks=(
     install_pacman_packages
     create_virtualenv
     install_python_packages
+    init_local
 )
 
 function usage()
@@ -73,6 +90,7 @@ function usage()
 		    install_pacman_packages
 		    create_virtualenv
 		    install_python_packages
+		    init_local
 	EOF
     exit 1
 }

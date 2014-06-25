@@ -1,0 +1,7 @@
+# Ignore all configurations except the template.
+/*/
+!/template/
+
+# Ignore the symbolic link to the default configuration.
+/default
+

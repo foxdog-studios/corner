@@ -6,13 +6,16 @@ from __future__ import print_function
 
 from argparse import ArgumentParser
 import csv
+import json
+import os
 import sys
 
 from corner.tmdb3_wrapper import tmdb3
 
 
 def main(argv=None):
-    args = parse_argv(argv=argv)
+    key = try_load_key()
+    args = parse_argv(argv=argv, key=key)
     configure_tmdb3(args)
     rows = load_csv(args.input_path, skip_headers=True)
 
@@ -24,7 +27,14 @@ def main(argv=None):
         print(movie.id)
 
 
-def parse_argv(argv=None):
+def try_load_key():
+    config_path = os.environ.get('CORNER_CONFIG')
+    if config_path:
+        with open(config_path) as config_file:
+            return json.load(config_file).get('key')
+
+
+def parse_argv(argv=None, key=None):
     if argv is None:
         argv = sys.argv
     parser = ArgumentParser()
@@ -33,9 +43,10 @@ def parse_argv(argv=None):
                        default='~/.tmdb3cache')
     group.add_argument('-C', dest='engine', default='file',
                        action='store_const', const='null')
-    parser.add_argument('key')
+    parser.add_argument('-k', '--key', default=key, required=key is None)
     parser.add_argument('input_path')
     parser.add_argument('output_dir')
+
     return parser.parse_args(args=argv[1:])
 
 
