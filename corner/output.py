@@ -17,6 +17,7 @@ def output(events, output_dir):
             'Title',
             'Alternative title',
             'Year released',
+            'Certificate',
             'Preview?',
             'Live?',
         ])
@@ -27,6 +28,7 @@ def output(events, output_dir):
                 event.title,
                 event.alternative_title,
                 event.year_released,
+                event.certificate,
                 csvbool(event.is_preview),
                 csvbool(event.is_live),
             ])
