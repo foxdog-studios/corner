@@ -15,8 +15,11 @@ tmdb3.request.Request.__init__ = _new__init__
 del _new__init__
 
 
-import tmdb3
+import tmdb3 as _tmdb3
 
 
-__all__ = ['tmdb3']
+Movie = _tmdb3.Movie
+search_movies = _tmdb3.searchMovie
+set_cache = _tmdb3.set_cache
+set_key = _tmdb3.set_key
 

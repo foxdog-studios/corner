@@ -5,26 +5,27 @@ from __future__ import division
 from __future__ import print_function
 
 from argparse import ArgumentParser
-import csv
 import json
 import os
 import sys
 
-from corner.tmdb3_wrapper import tmdb3
+from corner import tmdb3
+from corner.events import Events
+from corner.films import Films
 
 
 def main(argv=None):
     key = try_load_key()
     args = parse_argv(argv=argv, key=key)
     configure_tmdb3(args)
-    rows = load_csv(args.input_path, skip_headers=True)
+    events = Events.from_csv(args.csv_path, encoding='utf-8',
+                             skip_headers=True)
 
-    for title in (row[1] for row in rows):
-        try:
-            movie = tmdb3.searchMovie(title)[0]
-        except IndexError:
-            continue
-        print(movie.id)
+    if not os.path.exists(args.output_dir):
+        os.mkdir(args.output_dir)
+
+    films = Films.from_events(events.filter())
+    films.dump_csv(args.output_dir + '/films.csv')
 
 
 def try_load_key():
@@ -44,9 +45,8 @@ def parse_argv(argv=None, key=None):
     group.add_argument('-C', dest='engine', default='file',
                        action='store_const', const='null')
     parser.add_argument('-k', '--key', default=key, required=key is None)
-    parser.add_argument('input_path')
+    parser.add_argument('csv_path')
     parser.add_argument('output_dir')
-
     return parser.parse_args(args=argv[1:])
 
 
@@ -56,14 +56,6 @@ def configure_tmdb3(args):
         tmdb3.set_cache(filename=args.filename)
     else:
         tmdb3.set_cache('null')
-
-
-def load_csv(csv_path, skip_headers=False):
-    with open(csv_path) as csv_file:
-        csv_reader = csv.reader(csv_file)
-        if skip_headers:
-            next(csv_reader)
-        return list(csv_reader)
 
 
 if __name__ == '__main__':
