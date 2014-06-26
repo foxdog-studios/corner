@@ -25,10 +25,18 @@ class Films(object):
         with open(path, 'w') as file_:
             writer = unicodecsv.writer(file_)
             writer.writerow([
-                'tmdb_id',
                 'event_id',
-                'title',
+                'tmdb_id',
+                'title'
+                'original_title',
+                'release_date',
+                # 'certificate',
+                #'director',
+                #'languages',
+                'run_time',
+                #'country_of_origin',
             ])
+
             for film in self._films:
                 film.dump_csv(writer)
 

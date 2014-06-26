@@ -22,4 +22,5 @@ Movie = _tmdb3.Movie
 search_movies = _tmdb3.searchMovie
 set_cache = _tmdb3.set_cache
 set_key = _tmdb3.set_key
+set_locale = _tmdb3.set_locale
 

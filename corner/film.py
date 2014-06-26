@@ -18,5 +18,12 @@ class Film(object):
             self.tmdb_film.id,
             self.event.id,
             self.tmdb_film.title,
+            self.tmdb_film.originaltitle,
+            self.tmdb_film.releasedate, #.strftime('%Y-%m-%d'),
+            # self.tmdb_film.releases['uk'].certificate,
+            # self.tmdb_film.crew.director,
+            # self.tmdb_film.languages....,
+            self.tmdb_film.runtime,
+            # country_of_origin,
         ])
 

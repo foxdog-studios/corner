@@ -51,11 +51,14 @@ def parse_argv(argv=None, key=None):
 
 
 def configure_tmdb3(args):
-    tmdb3.set_key(args.key)
+    # Caching
     if args.engine == 'file':
         tmdb3.set_cache(filename=args.filename)
     else:
         tmdb3.set_cache('null')
+
+    tmdb3.set_key(args.key)
+    tmdb3.set_locale('en', 'gb')
 
 
 if __name__ == '__main__':
