@@ -60,6 +60,8 @@ __[Get the data here](https://docs.google.com/spreadsheets/d/12b5_UO5ytTe2jafqzL
     `https://api.themoviedb.org/3/movie/<tmdb_film_id>?api_key=<api_key>`,
     substiting `<tmdb_film_id>` and `<api_key>`.
 
+  *  `adult`: If the film is pornographic, `0`, else `1`.
+
 
 ## Data sources
 
