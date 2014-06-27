@@ -35,8 +35,7 @@ class Event(object):
         self.title = fix_text(self.raw_title)
         self.alternative_title = fix_text(self.raw_alternative_title)
         self.release_year = self._parse_release_year()
-        self.certificate = fix_text(self.raw_certificate)
-        self.directors = fix_text(self.raw_directors)
+        self.certificate = self._parse_certificate()
         self.languages = fix_text(self.raw_languages)
         self.duration = self._parser_duration()
         self.country_of_origin = fix_text(self.raw_country_of_origin)
@@ -74,7 +73,6 @@ class Event(object):
             self.alternative_title,
             self.release_year,
             self.certificate,
-            self.directors,
             self.languages,
             self.duration,
             self.country_of_origin,
