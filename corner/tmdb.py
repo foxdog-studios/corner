@@ -24,7 +24,7 @@ _EVENTS_MAP = {
 
 
 def find_tmdb_ids(event):
-    return _EVENTS_MAP.get(event.id)
+    return _EVENTS_MAP.get(event.event_id)
 
 
 class TMDBClient:

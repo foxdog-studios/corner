@@ -24,15 +24,18 @@ class Films(object):
                 # 'certificate',
                 #'director',
                 #'languages',
-                'run_time',
+                'runtime',
                 #'country_of_origin',
             ])
 
-            for film in self._films:
+            def key(film):
+                return film.event.event_id, film.tmdb_id
+
+            for film in sorted(self._films, key=key):
                 film.dump_csv(writer)
 
     @classmethod
     def from_events(cls, events, tmdb_movies):
-        return cls({cls.film_class(event, tmdb_movies[event.id])
+        return cls({cls.film_class(event, tmdb_movies[event.event_id])
                     for event in events})
 

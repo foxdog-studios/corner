@@ -683,11 +683,11 @@ _IGNORE_EVENTS = {
 
 
 def accept_event(event):
-    return event.id not in _IGNORE_EVENTS
+    return event.event_id not in _IGNORE_EVENTS
 
 
 def reject_event(event):
-    return event.id in _IGNORE_EVENTS
+    return event.event_id in _IGNORE_EVENTS
 
 
 def filter_events(events):

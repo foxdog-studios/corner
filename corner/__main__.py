@@ -38,9 +38,9 @@ def main(argv=None):
         ids = find_tmdb_ids(event)
         if ids:
             for id_ in ids:
-                append(event.id, client.get_movie(id_))
+                append(event.event_id, client.get_movie(id_))
         else:
-            append(event.id, client.search_movie(event.title))
+            append(event.event_id, client.search_movie(event.title))
 
     loop.run_until_complete(asyncio.wait(futures))
     client.save_cache(args.cache_path)
@@ -49,8 +49,9 @@ def main(argv=None):
 
     output_dir = args.output_dir
     if not output_dir.exists():
-        output_dir.mkdir()
+        output_dir.mkdir(parents=True)
 
+    events.dump_csv(output_dir / 'events.csv')
     films.dump_csv(output_dir / 'films.csv')
 
 
