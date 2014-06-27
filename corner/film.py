@@ -41,8 +41,8 @@ class Film(object):
             self.title,
 
             csv_bool(self.adult),
-            self.budget,
             self.backdrop_path,
+            self.budget,
             self.homepage,
             self.imdb_id,
             self.original_title,
