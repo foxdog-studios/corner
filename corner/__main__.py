@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from collections import defaultdict
 from pathlib import Path
 import asyncio
 import json
@@ -15,47 +16,22 @@ from corner.utils import default
 def main(argv=None):
     api_key = try_load_api_key()
     args = parse_argv(argv=argv, api_key=api_key)
-
     loop = asyncio.get_event_loop()
-    loop.set_debug(True)
-    events = Events.from_csv(args.csv_path, skip_headers=True)
     client = TMDBClient.from_path(args.cache_path, args.api_key)
 
-    results = {}
-    futures = []
+    # Build events
+    events = Events.from_csv(args.csv_path, skip_headers=True)
 
-    def append(event_id, future):
-        def callback(future):
-            movie = future.result()
-            if movie:
-                results[event_id] = movie
-        future.add_done_callback(callback)
-        futures.append(future)
-
-
-    film_events = events.filter()
-
-    for i, event in enumerate(film_events):
-        ids = find_tmdb_ids(event)
-        if ids:
-            for id_ in ids:
-                append(event.event_id, client.get_movie(id_))
-        else:
-            append(event.event_id, client.search_movie(event.title))
-
-    loop.run_until_complete(asyncio.wait(futures))
-    client.save_cache(args.cache_path)
-
+    # Build event directors
     event_directors = EventDirectors.from_events(events)
-    films = Films.from_events(film_events, results)
 
-    output_dir = args.output_dir
-    if not output_dir.exists():
-        output_dir.mkdir(parents=True)
+    # Build films
+    film_events = events.filter()
+    events_to_films = maps_events_to_films(loop, client, film_events)
+    films = Films.from_events(film_events, events_to_films)
 
-    events.dump_csv(output_dir)
-    event_directors.dump_csv(output_dir)
-    films.dump_csv(output_dir)
+    client.save_cache(args.cache_path)
+    output(args.output_dir, events, event_directors, films)
 
 
 def try_load_api_key():
@@ -80,6 +56,38 @@ def parse_argv(argv=None, api_key=None):
     parser.add_argument('csv_path', type=to_path)
     parser.add_argument('output_dir', type=to_path)
     return parser.parse_args(args=argv[1:])
+
+
+def maps_events_to_films(loop, client, events):
+    futures = []
+    results = defaultdict(list)
+
+    def append(event, future):
+        def callback(future):
+            movie = future.result()
+            if movie:
+                results[event.event_id].append(movie)
+        future.add_done_callback(callback)
+        futures.append(future)
+
+    for event in events:
+        ids = find_tmdb_ids(event)
+        if ids:
+            for id_ in ids:
+                append(event, client.get_movie(id_))
+        else:
+            append(event, client.search_movie(event.title))
+
+    loop.run_until_complete(asyncio.wait(futures))
+    return results
+
+
+def output(output_dir, events, event_directors, films):
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    events.dump_csv(output_dir)
+    event_directors.dump_csv(output_dir)
+    films.dump_csv(output_dir)
 
 
 if __name__ == '__main__':

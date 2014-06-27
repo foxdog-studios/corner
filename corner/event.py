@@ -1,8 +1,20 @@
 from contextlib import suppress
+
 from corner.text import fix_text
+from corner.utils import csv_bool
 
 
 __all__ = ['Event']
+
+
+_CERTIFICATES = {
+    'U',
+    'PG',
+    '12A',
+    '12',
+    '15',
+    '18',
+}
 
 
 class Event(object):
@@ -29,12 +41,21 @@ class Event(object):
         self.duration = self._parser_duration()
         self.country_of_origin = fix_text(self.raw_country_of_origin)
         self.actors = fix_text(self.raw_actors)
+        self.is_live = self._parse_is_live()
 
     def _parse_release_year(self):
         return self._try_parse_int(self.raw_release_year)
 
+    def _parse_certificate(self):
+        certificate = fix_text(self.raw_certificate)
+        if certificate in _CERTIFICATES:
+            return certificate
+
     def _parser_duration(self):
         return self._try_parse_int(self.raw_duration)
+
+    def _parse_is_live(self):
+        return self.raw_certificate == 'live'
 
     def _try_parse_int(self, text):
         with suppress(ValueError):
@@ -58,5 +79,6 @@ class Event(object):
             self.duration,
             self.country_of_origin,
             self.actors,
+            csv_bool(self.is_live),
         ])
 

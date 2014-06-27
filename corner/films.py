@@ -46,6 +46,10 @@ class Films(object):
 
     @classmethod
     def from_events(cls, events, tmdb_movies):
-        return cls({cls.film_class(event, tmdb_movies[event.event_id])
-                    for event in events})
+        films = set()
+        for event in events:
+            for tmdb_movie in tmdb_movies[event.event_id]:
+                film = cls.film_class(event, tmdb_movie)
+                films.add(film)
+        return cls(films)
 

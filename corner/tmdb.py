@@ -58,6 +58,17 @@ class TMDBClient:
         )))
         return urlunparse((self.scheme, self.netloc, path, '', query, ''))
 
+    def get_cast(self, *args, **kwargs):
+        return asyncio.async(self._get_cast(*args, **kwargs))
+
+    @asyncio.coroutine
+    def _get_cast(self, movie_id):
+        if movie_id in self.cache['casts']:
+            return self.cache['casts'][movie_id]
+        cast = yield from self._get('movie', movie_id, 'cast')
+        self.cache['casts'][cast['id']] = cast
+        return cast
+
     def get_movie(self, *args, **kwargs):
         return asyncio.async(self._get_movie(*args, **kwargs))
 

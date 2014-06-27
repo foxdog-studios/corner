@@ -29,6 +29,7 @@ class Events(object):
                 'duration',
                 'country_of_origin',
                 'actors',
+                'is_live',
             ])
 
             def key(event):
