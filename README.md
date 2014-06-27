@@ -7,6 +7,40 @@ A utility that aims to link together data from that realeased by
 This project was created for the [AND film data
 hack](http://www.andfestival.org.uk/blog/and-hack1-datasets/).
 
+
+## Data structure
+
+* `events.csv` The film related events hosted by the Cornerhouse since 1999.
+
+  * `event_id` The ID of an event assigned by Cornerhouse.
+
+  * `title` An event's title, may or may not be English.
+
+  * `alternative_title` (Optional) An alternative title for an event. Normally
+     a translation to English if `title` is in English, or the original title
+     if `title` is the translation.
+
+  * `release_year` (Optional) The year the content of the event was released in
+    YYYY format.
+
+  * `certificate` (Optional) An event's age certificate. One of `U`, `PG`,
+    `12A`, `12`, `15`, `18`.
+
+  * `languages` (Optional) Unstructured information about languages used in the
+    content of an event. This includes spoken languages, dubbed languages,
+    subtitle languages, and whether the event contains silent films and, if so,
+    whether there is live accompaniment. For structures language information,
+    see `spoken_languages.csv`.
+
+  * `duration` (Optional) The runtime of an event in minutes (> 0).
+
+  * `country_of_origin` (Optional) Unstructured information about the countries
+    involved in the creation of the content in an event.
+
+  * `actors` (Optional) Unstructured information about the actors featured
+    in the content in an event.
+
+
 ## Data sources
 - [Cornerhouse films screened since Nov
   1999](http://www.andfestival.org.uk/wp-content/uploads/2014/06/Cornerhouse-films-screened-since-Nov-1999.csv)
