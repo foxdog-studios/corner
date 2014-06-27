@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-import unicodecsv
-
 from corner.event import Event
 from corner.events_filter import filter_events
+from corner.utils import csv_reader
 
 
 __all__ = ['Events']
@@ -24,10 +17,9 @@ class Events(object):
         return type(self)(list(filter_events(self._events)))
 
     @classmethod
-    def from_csv(cls, path, encoding=None, skip_headers=False):
-        with open(path) as file_:
-            reader = unicodecsv.reader(file_, encoding=encoding)
+    def from_csv(cls, path, skip_headers=False):
+        with csv_reader(path) as reader:
             if skip_headers:
                 next(reader)
-            return cls(map(Event, reader))
+            return cls([Event(row) for row in reader])
 

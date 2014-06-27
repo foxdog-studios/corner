@@ -19,7 +19,7 @@ venv=$repo/local/venv
 
 pacman_packages=(
     git
-    python2-virtualenv
+    python
     zsh
 )
 
@@ -35,8 +35,10 @@ function install_pacman_packages()
 
 function create_virtualenv()
 {
-    mkdir --parents $venv:h
-    virtualenv-2.7 $venv
+    if [[ ! -d $venv ]]; then
+        mkdir --parents $venv:h
+        pyvenv $venv
+    fi
 }
 
 function install_python_packages()

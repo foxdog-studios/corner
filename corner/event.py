@@ -1,12 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from corner.text import fix_text
 
-__all__ = ['Rows']
+
+__all__ = ['Event']
 
 
 class Event(object):
@@ -15,24 +10,12 @@ class Event(object):
         self.raw_id = raw_row[0]
         self.raw_title = raw_row[1]
 
-        self.id = self._build_id()
-        self.title = self._build_title()
+        self.id = int(self.raw_id)
+        self.title = fix_text(self.raw_title)
 
     def __repr__(self):
         return 'Event({!r})'.format(self._raw_row)
 
     def __str__(self):
-        return self.title.encode('ascii', errors='replace')
-
-    def __unicode__(self):
         return self.title
-
-    def __unicode__(self):
-        return self.title
-
-    def _build_id(self):
-        return int(self.raw_id.strip())
-
-    def _build_title(self):
-        return fix_text(self.raw_title)
 
