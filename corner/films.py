@@ -19,17 +19,27 @@ class Films(object):
                 'event_id',
                 'tmdb_id',
                 'title',
+
+                'adult',
+                'backdrop_path',
+                'budget',
+                'homepage',
+                'imdb_id',
                 'original_title',
+                'overview',
+                'popularity',
+                'poster_path',
                 'release_date',
-                # 'certificate',
-                #'director',
-                #'languages',
+                'revenue',
                 'runtime',
-                #'country_of_origin',
+                'status',
+                'tagline',
+                'vote_average',
+                'vote_count',
             ])
 
             def key(film):
-                return film.event.event_id, film.tmdb_id
+                return film.event_id, film.tmdb_id
 
             for film in sorted(self._films, key=key):
                 film.dump_csv(writer)

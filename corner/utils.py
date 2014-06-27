@@ -1,7 +1,12 @@
 from contextlib import contextmanager
 import csv
 
-__all__ = ['csv_reader', 'csv_writer', 'default']
+
+__all__ = ['csv_bool', 'csv_reader', 'csv_writer', 'default']
+
+
+def csv_bool(obj):
+    return 1 if obj else 0
 
 
 @contextmanager
