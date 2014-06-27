@@ -12,6 +12,7 @@ class People:
 
     def dump_csv(self, output_dir):
         with csv_writer(output_dir / 'people.csv') as writer:
+            writer.writerow(['tmdb_person_id', 'name', 'profile_path'])
             for person in sorted(self._people, key=lambda p: p.tmdb_person_id):
                 person.dump_csv(writer)
 
