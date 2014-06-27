@@ -8,11 +8,11 @@ __all__ = ['People']
 
 class People:
     def __init__(self, people):
-        self.people = people
+        self._people = people
 
     def dump_csv(self, output_dir):
         with csv_writer(output_dir / 'people.csv') as writer:
-            for person in sorted(self.person, key=lambda p: p.tmdb_person_id):
+            for person in sorted(self._people, key=lambda p: p.tmdb_person_id):
                 person.dump_csv(writer)
 
     @classmethod

@@ -20,6 +20,7 @@ class Films(object):
         self.dump_csv_films(output_dir)
         self.dump_csv_cast_credits(output_dir)
         self.dump_csv_crew_credits(output_dir)
+        self.dump_csv_spoken_languages(output_dir)
 
     def dump_csv_films(self, output_dir):
         with csv_writer(output_dir / 'films.csv') as writer:
@@ -61,7 +62,7 @@ class Films(object):
             ])
 
             def key(film):
-                return film.event_id, film.tmdb_film_id
+                return film.tmdb_film_id
 
             for film in sorted(self._films, key=key):
                 film.dump_csv_cast_credits(writer)
@@ -75,10 +76,23 @@ class Films(object):
             ])
 
             def key(film):
-                return film.event_id, film.tmdb_film_id
+                return film.tmdb_film_id
 
             for film in sorted(self._films, key=key):
                 film.dump_csv_crew_credits(writer)
+
+    def dump_csv_spoken_languages(self, output_dir):
+        with csv_writer(output_dir / 'spoken_languages.csv') as writer:
+            writer.writerow([
+                'tmdb_film_id',
+                'iso_639_1',
+            ])
+
+            def key(film):
+                return film.tmdb_film_id
+
+            for film in sorted(self._films, key=key):
+                film.dump_csv_spoken_languages(writer)
 
     @classmethod
     def from_events(cls, events, tmdb_movies):
