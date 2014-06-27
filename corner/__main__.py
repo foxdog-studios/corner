@@ -85,7 +85,7 @@ def maps_events_to_films(loop, client, events):
             for id_ in ids:
                 append(event, client.get_movie(id_))
         else:
-            append(event, client.search_movie(event.title))
+            append(event, client.search_movie(event))
 
     loop.run_until_complete(asyncio.wait(futures))
     return results

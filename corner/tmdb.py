@@ -81,15 +81,16 @@ class TMDBClient:
         return asyncio.async(self._search_movie(*args, **kwargs))
 
     @asyncio.coroutine
-    def _search_movie(self, query, page=None):
-        query = {'query': query}
+    def _search_movie(self, event, page=None):
+        query = {'query': event.title}
         def set_if(key, value):
             if value is not None:
                 query[key] = value
         set_if('page', page)
         data = yield from self._get('search', 'movie', **query)
         if 'results' in data and data['results']:
-            return (yield from self.get_movie(data['results'][0]['id']))
+            best_result = find_best_result(event, data['results'])
+            return (yield from self.get_movie(best_result['id']))
 
 
     def save_cache(self, cache_path):
@@ -104,4 +105,17 @@ class TMDBClient:
         else:
             cache = defaultdict(dict)
         return cls(cache, *args, **kwargs)
+
+
+def find_best_result(event, results):
+    if not event.release_year:
+        return results[0]
+    def key(result):
+        release_date = result['release_date']
+        if release_date:
+            release_year = int(release_date.split('-')[0])
+            return abs(event.release_year - release_year)
+        return float('inf')
+    best_result = min(results, key=key)
+    return best_result
 
