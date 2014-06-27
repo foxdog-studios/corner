@@ -9,6 +9,7 @@ import sys
 from corner.event_directors import EventDirectors
 from corner.events import Events
 from corner.films import Films
+from corner.people import People
 from corner.tmdb import TMDBClient, find_tmdb_ids
 from corner.utils import default
 
@@ -30,8 +31,12 @@ def main(argv=None):
     events_to_films = maps_events_to_films(loop, client, film_events)
     films = Films.from_events(film_events, events_to_films)
 
+    # Build credits and people
+    films_to_credits = maps_films_to_credits(loop, client, films)
+    people = People.from_credits(films_to_credits)
+
     client.save_cache(args.cache_path)
-    output(args.output_dir, events, event_directors, films)
+    output(args.output_dir, events, event_directors, films, people)
 
 
 def try_load_api_key():
@@ -82,7 +87,19 @@ def maps_events_to_films(loop, client, events):
     return results
 
 
-def output(output_dir, events, event_directors, films):
+def maps_films_to_credits(loop, client, films):
+    results = {}
+    def map_film_to_credits(film):
+        def callback(credits):
+            results[film] = credits.result()
+        future = client.get_credits(film.tmdb_film_id)
+        future.add_done_callback(callback)
+        return future
+    loop.run_until_complete(asyncio.wait(map(map_film_to_credits, films)))
+    return results
+
+
+def output(output_dir, events, event_directors, films, people):
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
     events.dump_csv(output_dir)

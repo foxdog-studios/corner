@@ -13,11 +13,19 @@ class Films(object):
     def __init__(self, films):
         self._films = films
 
+    def __iter__(self):
+        return iter(self._films)
+
     def dump_csv(self, output_dir):
+        self.dump_csv_films(output_dir)
+        self.dump_csv_cast_credits(output_dir)
+        self.dump_csv_crew_credits(output_dir)
+
+    def dump_csv_films(self, output_dir):
         with csv_writer(output_dir / 'films.csv') as writer:
             writer.writerow([
                 'event_id',
-                'tmdb_id',
+                'tmdb_film_id',
                 'title',
 
                 'adult',
@@ -39,10 +47,38 @@ class Films(object):
             ])
 
             def key(film):
-                return film.event_id, film.tmdb_id
+                return film.event_id, film.tmdb_film_id
 
             for film in sorted(self._films, key=key):
-                film.dump_csv(writer)
+                film.dump_csv_film(writer)
+
+    def dump_csv_cast_credits(self, output_dir):
+        with csv_writer(output_dir / 'cast_credits.csv') as writer:
+            writer.writerow([
+                'tmdb_film_id',
+                'tmdb_person_id',
+                'character',
+            ])
+
+            def key(film):
+                return film.event_id, film.tmdb_film_id
+
+            for film in sorted(self._films, key=key):
+                film.dump_csv_cast_credits(writer)
+
+    def dump_csv_crew_credits(self, output_dir):
+        with csv_writer(output_dir / 'crew_credits.csv') as writer:
+            writer.writerow([
+                'tmdb_film_id',
+                'tmdb_person_id',
+                'job',
+            ])
+
+            def key(film):
+                return film.event_id, film.tmdb_film_id
+
+            for film in sorted(self._films, key=key):
+                film.dump_csv_crew_credits(writer)
 
     @classmethod
     def from_events(cls, events, tmdb_movies):

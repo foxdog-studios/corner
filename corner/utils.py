@@ -2,7 +2,7 @@ from contextlib import contextmanager
 import csv
 
 
-__all__ = ['csv_bool', 'csv_reader', 'csv_writer', 'default']
+__all__ = ['csv_bool', 'csv_reader', 'csv_writer', 'default', 'zero_to_none']
 
 
 def csv_bool(obj):
@@ -23,4 +23,8 @@ def csv_writer(path):
 
 def default(obj, default_obj):
     return default_obj if obj is None else obj
+
+
+def zero_to_none(x):
+    return None if x == 0 else x
 

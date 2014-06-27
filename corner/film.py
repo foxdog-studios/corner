@@ -1,20 +1,20 @@
-from corner.utils import csv_bool
+from corner.utils import csv_bool, zero_to_none
 
 
 __all__ = ['Film']
 
-def zero_to_none(x):
-    return None if x == 0 else x
-
 
 class Film(object):
     def __init__(self, event, tmdb_film):
+        self.cast_credits = set()
+        self.crew_credits = set()
+
         self.event     = event
         self.tmdb_film = tmdb_film
 
-        self.event_id = event.event_id
-        self.tmdb_id  = tmdb_film['id']
-        self.title    = tmdb_film['title']
+        self.event_id     = event.event_id
+        self.tmdb_film_id = tmdb_film['id']
+        self.title        = tmdb_film['title']
 
         self.adult          = tmdb_film['adult']
         self.backdrop_path  = tmdb_film['backdrop_path']
@@ -33,10 +33,10 @@ class Film(object):
         self.vote_average   = tmdb_film['vote_average']
         self.vote_count     = tmdb_film['vote_count']
 
-    def dump_csv(self, writer):
+    def dump_csv_film(self, writer):
         writer.writerow([
             self.event.event_id,
-            self.tmdb_id,
+            self.tmdb_film_id,
             self.title,
 
             csv_bool(self.adult),
@@ -56,4 +56,14 @@ class Film(object):
             self.vote_average,
             self.vote_count,
         ])
+
+    def dump_csv_cast_credits(self, writer):
+        for cast_credits in sorted(self.cast_credits,
+                                   key=lambda cc: cc.tmdb_person_id):
+            cast_credits.dump_csv(writer)
+
+    def dump_csv_crew_credits(self, writer):
+        for crew_credits in sorted(self.crew_credits,
+                                   key=lambda cc: cc.tmdb_person_id):
+            crew_credits.dump_csv(writer)
 
