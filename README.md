@@ -48,6 +48,19 @@ __[Get the data here](https://docs.google.com/spreadsheets/d/12b5_UO5ytTe2jafqzL
     in the content in an event.
 
 
+* `films` Films show during Cornhouse events since 1999. Excludes the films from
+  approximately 700 events that could not be automatically identified and have
+  yet to be manually identified.
+
+  * `event_id` The ID of the Cornhouse house event this film was shown during.
+    This links `films` to `events`.
+
+  * `tmdb_film_id` The ID of the film on TMDb. To access the movie via TMDb's
+    API, use the URL
+    `https://api.themoviedb.org/3/movie/<tmdb_film_id>?api_key=<api_key>`,
+    substiting `<tmdb_film_id>` and `<api_key>`.
+
+
 ## Data sources
 
 - [Cornerhouse films screened since Nov
