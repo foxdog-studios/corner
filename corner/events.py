@@ -16,8 +16,8 @@ class Events(object):
     def filter(self):
         return type(self)(list(filter_events(self._events)))
 
-    def dump_csv(self, path):
-        with csv_writer(path) as writer:
+    def dump_csv(self, output_dir):
+        with csv_writer(output_dir / 'events.csv') as writer:
             writer.writerow([
                 'event_id',
                 'title',

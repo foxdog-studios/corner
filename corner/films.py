@@ -13,8 +13,8 @@ class Films(object):
     def __init__(self, films):
         self._films = films
 
-    def dump_csv(self, path):
-        with csv_writer(path) as writer:
+    def dump_csv(self, output_dir):
+        with csv_writer(output_dir / 'films.csv') as writer:
             writer.writerow([
                 'event_id',
                 'tmdb_id',

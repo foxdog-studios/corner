@@ -5,6 +5,7 @@ import json
 import os
 import sys
 
+from corner.event_directors import EventDirectors
 from corner.events import Events
 from corner.films import Films
 from corner.tmdb import TMDBClient, find_tmdb_ids
@@ -45,14 +46,16 @@ def main(argv=None):
     loop.run_until_complete(asyncio.wait(futures))
     client.save_cache(args.cache_path)
 
+    event_directors = EventDirectors.from_events(events)
     films = Films.from_events(film_events, results)
 
     output_dir = args.output_dir
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
 
-    events.dump_csv(output_dir / 'events.csv')
-    films.dump_csv(output_dir / 'films.csv')
+    events.dump_csv(output_dir)
+    event_directors.dump_csv(output_dir)
+    films.dump_csv(output_dir)
 
 
 def try_load_api_key():
