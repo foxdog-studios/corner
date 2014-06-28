@@ -10,9 +10,33 @@ This project was created for the [AND film data
 hack](http://www.andfestival.org.uk/blog/and-hack1-datasets/).
 
 
+## Examples of this data in action
+
+- [fuiz - multiplayer buzzer quiz on films shown at Cornerhouse with automatically generated questions](http://fuiz.fds.com)
+
 ## Data
 
 __[Get the data here](https://docs.google.com/spreadsheets/d/12b5_UO5ytTe2jafqzLo8F4V5mnvsx5N47iyUlDK98Tk/edit?usp=sharing)__
+
+
+### Linking to other data sources
+
+In the `films` data there is the `imdb_id`, which is its id in on
+[IMDb](http://www.imdb.com/).
+
+This can be used to link it back to IMDb
+
+    http://www.imdb.com/title/<imdb_id>/
+
+e.g.
+[http://www.imdb.com/title/tt0185937/](http://www.imdb.com/title/tt0185937/)
+
+Or to the Rotten Tomatoes API (you will need to [sign up for an API
+key](http://developer.rottentomatoes.com/member/register))
+
+    http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id=<imdb_id_without_the_tt_prefix>&apikey=<your_api_key>
+
+e.g.[http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id=0130827&apikey=<your_api_key>&_prettyprint=true](http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id=0130827&apikey=<your_api_key>&_prettyprint=true)
 
 
 ### Data structure
