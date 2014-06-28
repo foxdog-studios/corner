@@ -69,8 +69,10 @@ e.g.[http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id
 
 
 * `films` Films show during Cornhouse events since 1999. Excludes the films from
-  approximately 700 events that could not be automatically identified and have
-  yet to be manually identified.
+  approximately
+  [700 events](https://github.com/foxdog-studios/corner/blob/master/corner/events_filter.py)
+  that could not be automatically identified and have yet to be manually
+  identified.
 
   * `event_id` The ID of the Cornhouse house event this film was shown during.
     This links `films` to `events`.
@@ -80,7 +82,26 @@ e.g.[http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id
     `https://api.themoviedb.org/3/movie/<tmdb_film_id>?api_key=<api_key>`,
     substiting `<tmdb_film_id>` and `<api_key>`.
 
-  *  `adult`: If the film is pornographic, `0`, else `1`.
+  * `title`: The film's English title. This may not be the original title (see
+    the `original_title` field.
+
+  * `adult`: `0` if the film is pornographic and `1` if not.
+
+  * `backdrop_path` (Optional): The file path of the film's backdrop image. To
+    retreive the image, see the "TMDb image URLs" section below.
+
+  * `budget` (Optional): The film's budget in American dollar. It appears that
+    the budgets have _not_ been adjusted for inflation.
+
+
+
+### TMDb image URLs
+
+To build an image URL, you will need 3 pieces of data. The `base_url`, `size`
+and `file_path`. Simply combine them all and you will have a fully qualified
+URL. Here’s an example URL:
+
+    http://image.tmdb.org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg
 
 
 ## Data sources
