@@ -21,6 +21,17 @@ __[Get the data here](https://docs.google.com/spreadsheets/d/12b5_UO5ytTe2jafqzL
 
 ### Linking to other data sources
 
+#### themoviedb
+
+To link to themoviedb API use the `tmdb_film_id` (you will need to [sign up for an API key](https://www.themoviedb.org/account/signup).
+
+    http://api.themoviedb.org/3/movie/<tmdb_film_id>?api_key=<your_api_key>
+
+e.g. [http://api.themoviedb.org/3/movie/329?api_key=<your_api_key>](http://api.themoviedb.org/3/movie/329?api_key=<your_api_key>)
+
+
+#### IMDb
+
 In the `films` data there is the `imdb_id`, which is its id in on
 [IMDb](http://www.imdb.com/).
 
@@ -31,7 +42,10 @@ This can be used to link it back to IMDb
 e.g.
 [http://www.imdb.com/title/tt0185937/](http://www.imdb.com/title/tt0185937/)
 
-Or to the Rotten Tomatoes API (you will need to [sign up for an API
+
+#### Rotten Tomatoes
+
+Or by searching by imdb id on the Rotten Tomatoes API (you will need to [sign up for an API
 key](http://developer.rottentomatoes.com/member/register))
 
     http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id=<imdb_id_without_the_tt_prefix>&apikey=<your_api_key>
@@ -94,7 +108,7 @@ e.g.[http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id
   * `backdrop_path` (Optional): The file path of the film's backdrop image. To
     retreive the image, see the "TMDb image URLs" section below.
 
-  * `budget` (Optional): The film's budget in American dollars. It appears that
+  * `budget` (Optional): The film's budget in American dollar. It appears that
     the budgets have _not_ been adjusted for inflation.
 
   * `homepage` (Optional): The URL of the website associated with the film. The
