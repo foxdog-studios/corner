@@ -118,7 +118,7 @@ e.g.[http://api.rottentomatoes.com/api/public/v1.0/movie_alias.json?type=imdb&id
 
   * `revenue` (Optional):
 
-  * `runtime (Optional):
+  * `runtime` (Optional):
 
   * `status`:
 
